@@ -1,5 +1,6 @@
 import asyncio
 import ujson
+import orjson
 import logging
 import os
 import pickle
@@ -143,7 +144,7 @@ class JsonDriver(BaseDriver):
         full_identifiers = identifier_data.to_tuple()[1:]
         # This is both our deepcopy() and our way of making sure this value is actually JSON
         # serializable.
-        value_copy = ujson.loads(ujson.dumps(value))
+        value_copy = orjson.loads(orjson.dumps(value).decode('utf-8'))
 
         async with self._lock:
             for i in full_identifiers[:-1]:
