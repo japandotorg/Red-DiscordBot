@@ -1,6 +1,6 @@
 from collections import namedtuple
 from pathlib import Path
-import ujson
+import orjson
 import subprocess as sp
 import shutil
 
@@ -116,7 +116,7 @@ LIBRARY_INFO_JSON = {
 def installable(tmpdir):
     cog_path = tmpdir.mkdir("test_repo").mkdir("test_cog")
     info_path = cog_path.join("info.json")
-    info_path.write_text(ujson.dumps(INFO_JSON), "utf-8")
+    info_path.write_text(orjson.dumps(INFO_JSON).decode("utf-8"), "utf-8")
 
     cog_info = Installable(Path(str(cog_path)))
     return cog_info
@@ -126,7 +126,7 @@ def installable(tmpdir):
 def installed_cog(tmpdir):
     cog_path = tmpdir.mkdir("test_repo").mkdir("test_installed_cog")
     info_path = cog_path.join("info.json")
-    info_path.write_text(ujson.dumps(INFO_JSON), "utf-8")
+    info_path.write_text(orjson.dumps(INFO_JSON).decode("utf-8"), "utf-8")
 
     cog_info = InstalledModule(Path(str(cog_path)))
     return cog_info
@@ -136,7 +136,7 @@ def installed_cog(tmpdir):
 def library_installable(tmpdir):
     lib_path = tmpdir.mkdir("test_repo").mkdir("test_lib")
     info_path = lib_path.join("info.json")
-    info_path.write_text(ujson.dumps(LIBRARY_INFO_JSON), "utf-8")
+    info_path.write_text(orjson.dumps(LIBRARY_INFO_JSON).decode("utf-8"), "utf-8")
 
     cog_info = Installable(Path(str(lib_path)))
     return cog_info
