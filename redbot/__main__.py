@@ -5,12 +5,9 @@ _early_init()
 
 import asyncio
 import functools
-import getpass
-import json
+import ujson
 import logging
 import os
-import pip
-import platform
 import shutil
 import signal
 import sys
@@ -43,7 +40,7 @@ log = logging.getLogger("red.main")
 
 def _get_instance_names():
     with data_manager.config_file.open(encoding="utf-8") as fs:
-        data = json.load(fs)
+        data = ujson.load(fs)
     return sorted(data.keys())
 
 

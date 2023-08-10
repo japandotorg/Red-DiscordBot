@@ -52,6 +52,8 @@ multidict==6.0.4
     #   yarl
 orjson==3.9.2
     # via -r base.in
+ujson==5.8.0
+    # via -r base.in
 packaging==23.1
     # via -r base.in
 platformdirs==3.9.1

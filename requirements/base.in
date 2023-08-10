@@ -8,6 +8,7 @@ click
 discord.py
 markdown
 orjson
+ujson
 packaging
 platformdirs
 psutil

@@ -1,4 +1,4 @@
-import json
+import ujson
 from pathlib import Path
 
 import pytest
@@ -18,7 +18,7 @@ def test_no_basic(cog_instance):
 @pytest.mark.skip
 def test_core_path(data_mgr_config, tmpdir):
     conf_path = tmpdir.join("config.json")
-    conf_path.write(json.dumps(data_mgr_config))
+    conf_path.write(ujson.dumps(data_mgr_config))
 
     data_manager.load_basic_configuration(Path(str(conf_path)))
 

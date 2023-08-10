@@ -4,7 +4,7 @@ from redbot import _early_init
 _early_init()
 
 import asyncio
-import json
+import ujson
 import logging
 import sys
 import re
@@ -48,7 +48,7 @@ def save_config(name, data, remove=False):
         _config[name] = data
 
     with config_file.open("w", encoding="utf-8") as fs:
-        json.dump(_config, fs, indent=4)
+        ujson.dump(_config, fs, indent=4)
 
 
 def get_data_dir(*, instance_name: str, data_path: Optional[Path], interactive: bool) -> str:
