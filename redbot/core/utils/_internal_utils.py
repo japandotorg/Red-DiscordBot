@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import collections.abc
-import contextlib
-import json
+import ujson
 import logging
 import os
 import re
@@ -13,12 +12,9 @@ import warnings
 from datetime import datetime
 from pathlib import Path
 from typing import (
-    AsyncIterable,
     AsyncIterator,
     Awaitable,
     Callable,
-    Generator,
-    Iterable,
     Iterator,
     List,
     Optional,
@@ -26,7 +22,6 @@ from typing import (
     TypeVar,
     TYPE_CHECKING,
     Tuple,
-    cast,
 )
 
 import aiohttp
@@ -245,10 +240,10 @@ async def create_backup(dest: Path = Path.home()) -> Optional[Path]:
         repo_output.append({"url": repo.url, "name": repo.name, "branch": repo.branch})
     repos_file = data_path / "cogs" / "RepoManager" / "repos.json"
     with repos_file.open("w") as fs:
-        json.dump(repo_output, fs, indent=4)
+        ujson.dump(repo_output, fs, indent=4)
     instance_file = data_path / "instance.json"
     with instance_file.open("w") as fs:
-        json.dump({data_manager.instance_name(): data_manager.basic_config}, fs, indent=4)
+        ujson.dump({data_manager.instance_name(): data_manager.basic_config}, fs, indent=4)
     for f in data_path.glob("**/*"):
         if not any(ex in str(f) for ex in exclusions) and f.is_file():
             to_backup.append(f)

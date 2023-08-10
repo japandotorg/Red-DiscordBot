@@ -1,6 +1,6 @@
 from __future__ import annotations
 import asyncio
-import json
+import ujson
 import logging
 from asyncio import as_completed, Semaphore
 from asyncio.futures import isfuture
@@ -580,7 +580,7 @@ def get_end_user_data_statement(file: Union[Path, str]) -> Optional[str]:
         log.critical("'%s' does not exist.", str(info_json))
     except KeyError:
         log.critical("'%s' is missing an entry for 'end_user_data_statement'", str(info_json))
-    except json.JSONDecodeError as exc:
+    except ujson.JSONDecodeError as exc:
         log.critical("'%s' is not a valid JSON file.", str(info_json), exc_info=exc)
     except UnicodeError as exc:
         log.critical("'%s' has a bad encoding.", str(info_json), exc_info=exc)
@@ -636,18 +636,18 @@ def get_end_user_data_statement_or_raise(file: Union[Path, str]) -> str:
         When ``info.json`` does not exist.
     KeyError
         When ``info.json`` does not have the ``end_user_data_statement`` key.
-    json.JSONDecodeError
-        When ``info.json`` can't be decoded with ``json.load()``
+    ujson.JSONDecodeError
+        When ``info.json`` can't be decoded with ``ujson.load()``
     UnicodeError
         When ``info.json`` can't be decoded due to bad encoding.
     Exception
-        Any other exception raised from ``pathlib`` and ``json`` modules
+        Any other exception raised from ``pathlib`` and ``ujson`` modules
         when attempting to parse the ``info.json`` for the ``end_user_data_statement`` key.
     """
     file = Path(file).parent.absolute()
     info_json = file / "info.json"
     with info_json.open(encoding="utf-8") as fp:
-        return json.load(fp)["end_user_data_statement"]
+        return ujson.load(fp)["end_user_data_statement"]
 
 
 @overload

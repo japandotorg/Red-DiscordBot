@@ -1,5 +1,5 @@
 import getpass
-import json
+import ujson
 import sys
 from pathlib import Path
 from typing import Optional, Any, AsyncIterator, Tuple, Union, Callable, List
@@ -146,14 +146,14 @@ class PostgresDriver(BaseDriver):
             # The result is None both when postgres yields no results, or when it yields a NULL row
             # A 'null' JSON value would be returned as encoded JSON, i.e. the string 'null'
             raise KeyError
-        return json.loads(result)
+        return ujson.loads(result)
 
     async def set(self, identifier_data: IdentifierData, value=None):
         try:
             await self._execute(
                 "SELECT red_config.set($1, $2::jsonb)",
                 encode_identifier_data(identifier_data),
-                json.dumps(value),
+                ujson.dumps(value),
             )
         except asyncpg.ErrorInAssignmentError:
             raise errors.CannotSetSubfield
